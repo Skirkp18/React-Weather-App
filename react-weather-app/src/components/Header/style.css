@@ -1,0 +1,29 @@
+#seachContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 200px;
+    background-color: lightgray;
+}
+
+#zipCodeSearchCard {
+    background-color: aquamarine;
+    border: black solid 2px;
+    text-align: center;
+    height: 90px;
+}
+
+#cityAndStateSearchCard {
+    background-color: azure;
+    border:  black solid 2px;
+    text-align: center;
+    height: 90px;
+}
+
+#cityAndStateSearch {
+    margin-left: 20px;
+}
+
+#zipCodeInputForm {
+    margin: auto;
+    width: 200px;
+}

@@ -1,0 +1,11 @@
+#footer {
+    text-align: center;
+    border: solid black 2px;
+    background-color: lightgray;
+    height: 50px;
+}
+
+#footerTxt {
+    margin: auto;
+    margin-top: 10px;
+}
