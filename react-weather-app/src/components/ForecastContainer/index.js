@@ -9,15 +9,16 @@ function ForecastContainer(props) {
     const city = props.city;
     const state = props.state;
     const zipCode = props.zipCode;
-
+    const weatherData = props.weatherData;
+    
     return(
         <Card id={"forecastBox"}>
             <Row>
                 <Col lg={4}>
-                    <CurrentForecastCard city={city} state={state} zipCode={zipCode}/>
+                    <CurrentForecastCard city={city} state={state} zipCode={zipCode} weatherData={weatherData}/>
                 </Col>
                 <Col lg={8}>
-                    <FutureForecastCard />
+                    <FutureForecastCard weatherData={weatherData} />
                 </Col>
             </Row>
         </Card>

@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {Dropdown, DropdownButton} from "react-bootstrap";
+import API from "../../utils/API";
 import "./style.css"
 
-function Header({ setZipCode, setCity, setState, setSearchState, city, state, zipCode }) {
+function Header({ setWeatherData }) {
+
+  const [city, setCity] = useState("Tarrytown");
+  const [state, setState] = useState("State");
+  const [zipCode, setZipCode] = useState("10591");
+  const [searchState, setSearchState] = useState("")
 
   const States = ["Alabama",
     "Alaska",
@@ -59,17 +65,54 @@ function Header({ setZipCode, setCity, setState, setSearchState, city, state, zi
     ]
 
 
+    function getWeather(searchState) {
+      const cityAndState = city + "," + state;
+  
+      if (searchState === "cityAndState") {
+          API.getWeatherByCityAndState(cityAndState)
+          .then((res) => setWeatherData(res))
+          .then(() => {
+              setCity("Tarrytown");
+              setState("Select State")
+              return;
+          })
+      } else if (searchState === "zipCode") {
+          API.getCurrentWeatherByZip(zipCode)
+          .then((res) => setWeatherData(res))
+          .then(() => {
+              setZipCode("10591")
+              return;
+          })
+      }
+  }
+
+
   function SearchByCityAndState(event) {
+    const cityAndState = city + "," + state;
     event.preventDefault();
     console.log("Click!")
     setSearchState("cityAndState")
+    API.getWeatherByCityAndState(cityAndState)
+    .then((res) => {
+      setWeatherData(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   };
 
   function SearchByZipCode(event) {
-    event.preventDefault()
+    event.preventDefault();
     console.log("Click!");
-    setSearchState("zipCode")
-  }
+    setSearchState("zipCode");
+    API.getCurrentWeatherByZip(zipCode)
+    .then((res) => {
+      setWeatherData(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  };
 
   function SetCityValue(event) {
     console.log(event.target.value);
@@ -78,7 +121,7 @@ function Header({ setZipCode, setCity, setState, setSearchState, city, state, zi
 
   function SetStateValue(event) {
     console.log(event.target.outerText);
-    setState(event.target.value);
+    setState(event.target.outerText);
   };
 
   function SetZipCodeValue(event) {
@@ -131,7 +174,7 @@ function Header({ setZipCode, setCity, setState, setSearchState, city, state, zi
                       <Form.Control placeholder="City" onChange={SetCityValue} />
                     </Col>
                     <Col>
-                      <DropdownButton id="dropdown-basic-button" title="State">
+                      <DropdownButton id="dropdown-basic-button" title={state}>
                         {States.map((state) => {
                           return(
                         <Dropdown.Item value={state} onClick={SetStateValue} key={state}>{state}</Dropdown.Item>
